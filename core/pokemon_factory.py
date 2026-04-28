@@ -5,7 +5,8 @@ Interfaz PokemonFactory - Patrón Factory Method
 from models.pokemon import Pokemon
 from models.movimiento import Movimiento
 from database.repositories.pokemon_repository import PokemonRepository
-from core.estrategia_evolucion import EvolucionPorBatallas, SinEvolucion
+from core.estrategia_evolucion import EvolucionPorBatallas, SinEvolucion, EstrategiaEvolucion
+from typing import List
 
 class PokemonFactory:
     def __init__(self):
