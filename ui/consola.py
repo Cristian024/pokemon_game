@@ -19,6 +19,7 @@ else:
     from core.pokemon_factory import PokemonFactory
     from database.repositories.pokemon_repository import PokemonRepository
 
+MENSAJE_EQUIVOCADO="Opción inválida."
 
 class Consola:
     """Juego principal de Pokémon por consola"""
@@ -57,9 +58,7 @@ class Consola:
         self._entrenador = Entrenador(nombre)
         print(f"\n✅ ¡Bienvenido, {nombre}! ¡Tu aventura Pokémon comienza ahora!")
     
-    def _elegir_pokemon_inicial(self):
-        """Permite elegir el Pokémon inicial"""
-
+    def _agrupar_pokemones_por_tipo(self) -> dict:
         pokemones_por_tipo = {}
         for p in self._pokemones:
             tipo_principal = p.tipo
@@ -70,10 +69,9 @@ class Consola:
             
             if not es_evolucion:
                 pokemones_por_tipo[tipo_principal].append(p)
-            
-        tipos_disponibles = list(pokemones_por_tipo.keys())
+        return pokemones_por_tipo
 
-        tipo_elegido = None
+    def _seleccionar_tipo_inicial(self, tipos_disponibles: list) -> str:
         while True:
             print("\n🌟 Selecciona el TIPO de tu Pokémon inicial:")
             for i, tipo in enumerate(tipos_disponibles, 1):
@@ -82,13 +80,11 @@ class Consola:
             opcion_tipo = input(f"\nElige un tipo (1-{len(tipos_disponibles)}): ").strip()
             
             if opcion_tipo.isdigit() and 1 <= int(opcion_tipo) <= len(tipos_disponibles):
-                tipo_elegido = tipos_disponibles[int(opcion_tipo) - 1]
-                break
+                return tipos_disponibles[int(opcion_tipo) - 1]
             else:
-                print("❌ Opción inválida. Intenta de nuevo.")
+                print("❌ Intenta de nuevo.")
 
-        pokemones_filtrados = pokemones_por_tipo[tipo_elegido]
-        
+    def _seleccionar_companero_inicial(self, pokemones_filtrados: list, tipo_elegido: str):
         while True:
             print(f"\n🎁 Pokémon disponibles de tipo {tipo_elegido}:")
             for i, p in enumerate(pokemones_filtrados, 1):
@@ -98,11 +94,20 @@ class Consola:
             
             if opcion_poke.isdigit() and 1 <= int(opcion_poke) <= len(pokemones_filtrados):
                 pokemon = pokemones_filtrados[int(opcion_poke) - 1]
-                
                 self._entrenador.capturar_pokemon(pokemon)
                 break
             else:
                 print("❌ Opción inválida. Intenta de nuevo.")
+
+    def _elegir_pokemon_inicial(self):
+        """Permite elegir el Pokémon inicial"""
+        pokemones_por_tipo = self._agrupar_pokemones_por_tipo()
+        tipos_disponibles = list(pokemones_por_tipo.keys())
+        
+        tipo_elegido = self._seleccionar_tipo_inicial(tipos_disponibles)
+        pokemones_filtrados = pokemones_por_tipo[tipo_elegido]
+        
+        self._seleccionar_companero_inicial(pokemones_filtrados, tipo_elegido)
     
     def _bucle_principal(self):
         """Bucle principal del juego"""
@@ -183,7 +188,7 @@ class Consola:
                 self._batalla.ejecutar_turno('huir')
                 break
             else:
-                print(" Opción inválida.")
+                print(MENSAJE_EQUIVOCADO)
     
     def _seleccionar_ataque(self):
         """Permite seleccionar un ataque"""
@@ -191,7 +196,7 @@ class Consola:
         if not pokemon_activo:
             return
         
-        print(f"\n  Selecciona un movimiento:")
+        print("\n  Selecciona un movimiento:")
         for i, mov in enumerate(pokemon_activo.movimientos, 1):
             print(f"   {i}. {mov}")
         
@@ -205,7 +210,7 @@ class Consola:
                 print("\n Has perdido la batalla...")
                 self._ofrecer_curacion()
         except ValueError:
-            print(" Opción inválida.")
+            print(MENSAJE_EQUIVOCADO)
     
     def _seleccionar_objeto(self):
 
@@ -217,7 +222,7 @@ class Consola:
             print(" ¡No tienes objetos!")
             return
         
-        print(f"\n Selecciona un objeto:")
+        print("\n Selecciona un objeto:")
         for i, obj in enumerate(objetos, 1):
             print(f"   {i}. {obj}")
         
@@ -226,13 +231,13 @@ class Consola:
             
             # Mostrar Pokémon del equipo
 
-            print(f"\n👥 ¿En qué Pokémon?")
+            print("\n👥 ¿En qué Pokémon?")
             self._entrenador.mostrar_equipo()
             
             opcion_pokemon = int(input("\nPokémon (número): ")) - 1
             
             if 0 <= opcion_pokemon < len(self._entrenador.equipo):
-                pokemon = self._entrenador.equipo[opcion_pokemon]
+                self._entrenador.equipo[opcion_pokemon]
                 
                 # Encontrar el índice real en el inventario
 
@@ -245,7 +250,7 @@ class Consola:
                     print("\n💀 Has perdido la batalla...")
                     self._ofrecer_curacion()
         except (ValueError, IndexError):
-            print(" Opción inválida.")
+            print(MENSAJE_EQUIVOCADO)
     
     def _ofrecer_curacion(self):
         """Ofrece curar al equipo después de una derrota"""
@@ -266,7 +271,7 @@ class Consola:
             if 0 <= opcion < len(self._entrenador.equipo):
                 self._entrenador.equipo[opcion].mostrar_estadisticas()
         except ValueError:
-            print(" Opción inválida.")
+            print(MENSAJE_EQUIVOCADO)
     
     def _salir(self):
         """Sale del juego"""

@@ -177,7 +177,7 @@ class SistemaDeBatalla:
         vida_restante = self._oponente.vida_actual / self._oponente.vida_max
         probabilidad = (1 - vida_restante) * 0.6  # Más débil = más fácil de capturar
         
-        print(f"\n🎯 ¡Lanzaste una Pokéball!")
+        print("\n🎯 ¡Lanzaste una Pokéball!")
         time.sleep(0.5)
         print("   ¡Ding-ding-ding...!")
         time.sleep(0.5)
@@ -247,20 +247,20 @@ class SistemaDeBatalla:
         """Muestra el estado actual de la batalla"""
         pokemon_jugador = self._entrenador.obtener_pokemon_activo()
         
-        print(f"\n📊 ESTADO DE LA BATALLA:")
+        print("\n📊 ESTADO DE LA BATALLA:")
         print(f"   🐾 {self._oponente.nombre}: {self._oponente.vida_actual}/{self._oponente.vida_max} PS")
         if pokemon_jugador:
             print(f"   👤 {pokemon_jugador.nombre}: {pokemon_jugador.vida_actual}/{pokemon_jugador.vida_max} PS")
     
     def mostrar_opciones(self):
         """Muestra las opciones de batalla"""
-        pokemon_jugador = self._entrenador.obtener_pokemon_activo()
+        self._entrenador.obtener_pokemon_activo()
         
-        print(f"\n🎮 OPCIONES:")
-        print(f"   1. ⚔️  Atacar")
-        print(f"   2. 🎒 Usar Objeto")
-        print(f"   3. 🎯 Capturar")
-        print(f"   4. 🏃 Huir")
+        print("\n🎮 OPCIONES:")
+        print("   1. ⚔️  Atacar")
+        print("   2. 🎒 Usar Objeto")
+        print("   3. 🎯 Capturar")
+        print("   4. 🏃 Huir")
     
     @property
     def en_batalla(self) -> bool:

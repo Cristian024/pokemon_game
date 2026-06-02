@@ -5,7 +5,9 @@ Interfaz PokemonFactory - Patrón Factory Method
 from models.pokemon import Pokemon
 from models.movimiento import Movimiento
 from database.repositories.pokemon_repository import PokemonRepository
-from core.estrategia_evolucion import EvolucionPorBatallas, SinEvolucion, EstrategiaEvolucion
+from core.estrategia_evolucion import EstrategiaEvolucion
+from core.strategies.evolucion_por_batallas import EvolucionPorBatallas
+from core.strategies.sin_evolucion import SinEvolucion
 from typing import List
 
 class PokemonFactory:
@@ -44,8 +46,8 @@ class PokemonFactory:
             ))
         return lista_movimientos
 
-    def crear_estrategia_evolucion(self, evolucion: str) -> EstrategiaEvolucion:
-        tipo_evolucion = evolucion["tipo"]
+    def crear_estrategia_evolucion(self, evolucion: dict) -> EstrategiaEvolucion:
+        tipo_evolucion = evolucion["tipo"   ]
         if tipo_evolucion == "EvolucionPorBatallas":
             return EvolucionPorBatallas(batallas_necesarias=evolucion["batallas_necesarias"])
         elif tipo_evolucion == "SinEvolucion":

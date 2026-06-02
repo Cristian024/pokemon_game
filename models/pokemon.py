@@ -7,6 +7,7 @@ import random
 import time
 from core.estrategia_evolucion import EstrategiaEvolucion
 from models.movimiento import Movimiento
+from core.pokemon_factory import PokemonFactory
 
 if __name__ == "__main__":
     from movimiento import Movimiento
@@ -109,20 +110,20 @@ class Pokemon():
         # Calcular daño con fórmula de Pokémon simplificada
 
 
-        daño_base = ((2 * self._nivel / 5 + 2) * movimiento.poder * (self._ataque / objetivo._defensa)) / 50 + 2
+        dano_base = ((2 * self._nivel / 5 + 2) * movimiento.poder * (self._ataque / objetivo._defensa)) / 50 + 2
         
         # Multiplicador de tipo
         multiplicador = self._calcular_efectividad(movimiento.tipo, objetivo._tipo)
-        daño_final = int(daño_base * multiplicador)
+        dano_final = int(dano_base * multiplicador)
         
         # Variación aleatoria (85% - 100%)
-        daño_final = int(daño_final * random.uniform(0.85, 1.0))
+        dano_final = int(dano_final * random.uniform(0.85, 1.0))
         
-        if daño_final < 1:
-            daño_final = 1
+        if dano_final < 1:
+            dano_final = 1
         
-        objetivo.recibir_dano(daño_final, multiplicador)
-        return daño_final
+        objetivo.recibir_dano(dano_final, multiplicador)
+        return dano_final
     
     def recibir_dano(self, dano: int, multiplicador: float):
         """Recibe daño de un ataque"""

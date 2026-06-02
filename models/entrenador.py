@@ -8,10 +8,16 @@ if __name__ == "__main__":
     import sys
     sys.path.append('..')
     from models.pokemon import Pokemon
-    from models.objeto import Pocion, SuperPocion, Revivir, Objeto
+    from models.objeto import Objeto
+    from models.objects.pocion import Pocion
+    from models.objects.super_pocion import SuperPocion
+    from models.objects.revivir import Revivir
 else:
     from models.pokemon import Pokemon
-    from models.objeto import Pocion, SuperPocion, Revivir, Objeto
+    from models.objeto import Objeto
+    from models.objects.pocion import Pocion
+    from models.objects.super_pocion import SuperPocion
+    from models.objects.revivir import Revivir
 
 
 class Entrenador:
