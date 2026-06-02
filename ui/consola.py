@@ -277,21 +277,28 @@ class Consola:
             print(MENSAJE_EQUIVOCADO)
     
     def _gestionar_equipo(self):
-        """Gestiona el equipo y el PC"""
+        """Gestiona el equipo activo y el almacenamiento (PC)"""
         while True:
-            print("\n" + "=" * 30)
-            print("  💻 PC de " + self._entrenador.nombre)
-            print("=" * 30)
-            print("   1. Mover del PC al Equipo")
-            print("   2. Mover del Equipo al PC")
-            print("   3. Volver al menú principal")
+            print("\n" + "=" * 45)
+            print("  💻 ALMACENAMIENTO DE POKÉMON (PC) - " + self._entrenador.nombre)
+            print("=" * 45)
+            print("   INFO: Solo puedes llevar contigo un máximo de 6 Pokémon")
+            print("     para pelear (tu 'Equipo Activo'). Todos los demás que")
+            print("     captures descansarán seguros aquí (tu 'Almacenamiento').")
+            print("-" * 45)
+            print("   1. Ver todos los Pokémon en el almacenamiento")
+            print("   2. Agregar Pokémon a tu equipo activo (desde el almacenamiento)")
+            print("   3. Guardar un Pokémon de tu equipo (enviar al almacenamiento)")
+            print("   4. Volver al menú principal")
             
             opcion = input("\nElige una opción: ").strip()
             
             if opcion == "1":
                 self._entrenador.mostrar_pokedex()
+            elif opcion == "2":
+                self._entrenador.mostrar_pokedex()
                 try:
-                    idx = int(input("\nElige el Pokémon del PC para mover al equipo (número): ")) - 1
+                    idx = int(input("\nElige el Pokémon del almacenamiento para mover a tu equipo activo (número): ")) - 1
                     if 0 <= idx < len(self._entrenador.pokedex):
                         pokemon = self._entrenador.pokedex[idx]
                         self._entrenador.agregar_a_equipo(pokemon)
@@ -299,10 +306,10 @@ class Consola:
                         print("Pokémon no encontrado.")
                 except ValueError:
                     print(MENSAJE_EQUIVOCADO)
-            elif opcion == "2":
+            elif opcion == "3":
                 self._entrenador.mostrar_equipo()
                 try:
-                    idx = int(input("\nElige el Pokémon del equipo para mover al PC (número): ")) - 1
+                    idx = int(input("\nElige el Pokémon de tu equipo activo para guardar en el almacenamiento (número): ")) - 1
                     if 0 <= idx < len(self._entrenador.equipo):
                         pokemon = self._entrenador.equipo[idx]
                         self._entrenador.remover_de_equipo(pokemon)
@@ -310,7 +317,7 @@ class Consola:
                         print("Pokémon no encontrado en el equipo.")
                 except ValueError:
                     print(MENSAJE_EQUIVOCADO)
-            elif opcion == "3":
+            elif opcion == "4":
                 break
             else:
                 print(MENSAJE_EQUIVOCADO)
