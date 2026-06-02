@@ -1,5 +1,5 @@
 """
-Interfaz PokemonFactory - Patrón Factory Method
+Clase PokemonFactory - Patrón Simple Factory / Data-Driven Factory
 """
 
 from models.pokemon import Pokemon

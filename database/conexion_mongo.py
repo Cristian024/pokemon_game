@@ -23,6 +23,8 @@ class ConexionMongo:
                 cls._instancia.db = cls._instancia.cliente[nombre_db]
             except ConnectionFailure as e:
                 print(f"Error crítico conectando a MongoDB: {e}")
+                import sys
+                sys.exit(1)
                 
         return cls._instancia
 

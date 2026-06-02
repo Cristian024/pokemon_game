@@ -1,5 +1,5 @@
-# database/repositories/pokemon_repo.py
 from database.conexion_mongo import ConexionMongo
+from pymongo.errors import PyMongoError
 
 class PokemonRepository:
     """Repositorio para interactuar con la colección de especies de Pokémon"""
@@ -17,7 +17,7 @@ class PokemonRepository:
         try:
             datos = self.coleccion.find({}, {"_id": 0})
             return list(datos)
-        except Exception as e:
+        except PyMongoError as e:
             print(f"Error al consultar las especies en la base de datos: {e}")
             return []
 
@@ -35,6 +35,6 @@ class PokemonRepository:
                 print(f"Advertencia: Pokémon con ID {id_especie} no encontrado en la base de datos.")
                 return None
                 
-        except Exception as e:
+        except PyMongoError as e:
             print(f"Error al consultar la especie en la base de datos: {e}")
             return None

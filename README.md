@@ -8,17 +8,24 @@ Juego de Pokémon por consola implementado en Python.
 ```text
 pokemon_game/
 ├── core/                        # Lógica central del juego
-│   ├── estrategia_evolucion.py  # Patrón Strategy para evoluciones
-│   ├── pokemon_factory.py       # Patrón Factory (Data-Driven)
+│   ├── strategies/              # Estrategias de evolución
+│   │   ├── evolucion_por_batallas.py
+│   │   └── sin_evolucion.py
+│   ├── estrategia_evolucion.py  # Patrón Strategy (Interfaz)
+│   ├── pokemon_factory.py       # Patrón Simple Factory (Data-Driven)
 │   └── sistema_batalla.py       # Gestión de combates por turnos
 ├── database/                    # Capa de persistencia (MongoDB)
 │   ├── repositories/
 │   │   └── pokemon_repository.py # Patrón Repository
 │   └── conexion_mongo.py        # Patrón Singleton para la BD
 ├── models/                      # Entidades de dominio (Estado)
+│   ├── objects/                 # Objetos usables
+│   │   ├── pocion.py            # Clase Pocion
+│   │   ├── revivir.py           # Clase Revivir
+│   │   └── super_pocion.py      # Clase SuperPocion
 │   ├── entrenador.py            # Clase Entrenador (jugador)
 │   ├── movimiento.py            # Clase Movimiento
-│   ├── objeto.py                # Clases de objetos (Pociones, Revivir)
+│   ├── objeto.py                # Clase base Objeto
 │   └── pokemon.py               # Modelo principal Pokemon
 ├── ui/                          # Interfaz de usuario
 │   └── consola.py               # Menús interactivos

@@ -5,9 +5,9 @@ Clase abstracta Pokemon - Clase base para todos los Pokémon
 from typing import List
 import random
 import time
+from abc import ABC, abstractmethod
 from core.estrategia_evolucion import EstrategiaEvolucion
 from models.movimiento import Movimiento
-from core.pokemon_factory import PokemonFactory
 
 if __name__ == "__main__":
     from movimiento import Movimiento
@@ -15,7 +15,7 @@ else:
     from .movimiento import Movimiento
 
 
-class Pokemon():
+class Pokemon(ABC):
     """Clase base abstracta para todos los Pokémon"""
     
     def __init__(self, id_especie: int, nombre: str, nivel: int, tipo: str, 
@@ -173,6 +173,7 @@ class Pokemon():
     def crear_evolucion(self) -> 'Pokemon':
         """Crea la evolución usando la factory"""
         if(self._pokemon_evolucionado_id):
+            from core.pokemon_factory import PokemonFactory
             return PokemonFactory().crear_pokemon_por_id(self._pokemon_evolucionado_id)
         else:
             return self

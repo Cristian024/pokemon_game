@@ -126,7 +126,8 @@ class Consola:
         print("   3. Ver Pokédex")
         print("   4. Ver inventario")
         print("   5. Ver estadísticas")
-        print("   6. Salir")
+        print("   6. Gestionar equipo (PC)")
+        print("   7. Salir")
     
     def _procesar_opcion(self, opcion: str):
         """Procesa la opción del menú"""
@@ -141,6 +142,8 @@ class Consola:
         elif opcion == "5":
             self._mostrar_estadisticas_detalladas()
         elif opcion == "6":
+            self._gestionar_equipo()
+        elif opcion == "7":
             self._salir()
         else:
             print(" Opción inválida. Intenta de nuevo.")
@@ -273,6 +276,45 @@ class Consola:
         except ValueError:
             print(MENSAJE_EQUIVOCADO)
     
+    def _gestionar_equipo(self):
+        """Gestiona el equipo y el PC"""
+        while True:
+            print("\n" + "=" * 30)
+            print("  💻 PC de " + self._entrenador.nombre)
+            print("=" * 30)
+            print("   1. Mover del PC al Equipo")
+            print("   2. Mover del Equipo al PC")
+            print("   3. Volver al menú principal")
+            
+            opcion = input("\nElige una opción: ").strip()
+            
+            if opcion == "1":
+                self._entrenador.mostrar_pokedex()
+                try:
+                    idx = int(input("\nElige el Pokémon del PC para mover al equipo (número): ")) - 1
+                    if 0 <= idx < len(self._entrenador.pokedex):
+                        pokemon = self._entrenador.pokedex[idx]
+                        self._entrenador.agregar_a_equipo(pokemon)
+                    else:
+                        print("Pokémon no encontrado.")
+                except ValueError:
+                    print(MENSAJE_EQUIVOCADO)
+            elif opcion == "2":
+                self._entrenador.mostrar_equipo()
+                try:
+                    idx = int(input("\nElige el Pokémon del equipo para mover al PC (número): ")) - 1
+                    if 0 <= idx < len(self._entrenador.equipo):
+                        pokemon = self._entrenador.equipo[idx]
+                        self._entrenador.remover_de_equipo(pokemon)
+                    else:
+                        print("Pokémon no encontrado en el equipo.")
+                except ValueError:
+                    print(MENSAJE_EQUIVOCADO)
+            elif opcion == "3":
+                break
+            else:
+                print(MENSAJE_EQUIVOCADO)
+
     def _salir(self):
         """Sale del juego"""
         print(f"\n ¡Hasta luego, {self._entrenador.nombre}!")
